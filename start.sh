@@ -1,0 +1,1 @@
+php -S 0.0.0.0:8000 -t ./html/ 2>> log/php.log
