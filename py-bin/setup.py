@@ -37,7 +37,7 @@ def main():
     with open("./msp.service", mode="w") as fp:
         fp.write(systemdBase)
     
-    commandAdmin("apt install python3-full php screen -y")
+    commandAdmin("apt install python3-full python3-pip php screen -y")
     os.system("pip3 install requests")
     commandAdmin("cp ./msp.service /etc/systemd/system/msp.service")
     commandAdmin("systemctl daemon-reload")
