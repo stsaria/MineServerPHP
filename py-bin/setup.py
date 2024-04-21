@@ -47,7 +47,7 @@ def main():
     commandAdmin("apt update")
     commandAdmin("apt upgrade -y")
     commandAdmin("apt install python3-full python3-pip php screen -y")
-    download("https://corretto.aws/downloads/latest/amazon-corretto-22-x64-linux-jdk.deb", "corretto-jdk.deb")
+    download("https://corretto.aws/downloads/latest/amazon-corretto-22-x64-linux-jdk.deb")
     commandAdmin("dpkg -i corretto-jre.deb")
     os.system("pip3 install requests")
     commandAdmin("cp ./msp.service /etc/systemd/system/msp.service")
