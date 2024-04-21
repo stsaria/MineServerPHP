@@ -30,17 +30,21 @@
                 <p class="text-success">Server is running</p>
                 <p>ServerIP : <?=$serverIp?>:<?=explode(",", $serverPort)[$createNum-1]?></p>
                 <h3>Console</h3>
-                <iframe src="console.php?serverId=<?=$_GET["serverId"]?>" width="100%" height="500px"></iframe>
+                <iframe src="console.php?serverId=<?=$_GET["serverId"]?>" width="100%" height="300px"></iframe>
                 <form action="command.php" method="get">
-                    Command :&nbsp;
+                    Command &nbsp;
                     <input type="text" name="serverId" readonly hidden value="<?=$_GET["serverId"]?>"/>
-                    <input type="text" name="command" required/>
-                    <input type="submit" value="Submit"/>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">></span>
+                        <input type="text" class="form-control" name="command" aria-label="Command" onkeydown="if(window.event.keyCode==13)document.formname.submit();">
+                    </div>
+                    <input type="submit" value="Submit" hidden/>
                 </form>
             <?php else: ?>
                 <a href="switchServer.php?serverId=<?=$_GET["serverId"]?>"><button>Server On</button></a>
                 <p class="text-danger">Server is not running</p>
             <?php endif; ?>
+            <a href="console.php?serverId=<?=$_GET["serverId"]?>&all=yes" download="latest.log">LOG DL</a>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
