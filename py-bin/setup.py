@@ -57,7 +57,7 @@ def main():
 MSP Daemon : systemctl start/stop/enable msp.service""")
     
     os.remove("msp.service")
-    os.remove("corretto-jdk.deb")
+    os.remove("amazon-corretto-22-x64-linux-jdk.deb")
 
 if __name__ == "__main__":
     main()
