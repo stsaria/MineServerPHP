@@ -44,7 +44,7 @@
                 <a href="switchServer.php?serverId=<?=$_GET["serverId"]?>"><button>Server On</button></a>
                 <p class="text-danger">Server is not running</p>
             <?php endif; ?>
-            <a href="console.php?serverId=<?=$_GET["serverId"]?>&all=yes" download="latest.log">LOG DL</a>
+            <a href="console.php?serverId=<?=$_GET["serverId"]?>&all=yes">LOG</a>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
