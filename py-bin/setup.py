@@ -1,4 +1,4 @@
-import shutil, os
+import getpass, shutil, os
 
 mkdir = ["minecraft", "log", "data", "minecraft/log"]
 mkfile = ["data/server.csv", "data/createNum.txt", "log/php.log", "log/python.log"]
@@ -7,15 +7,17 @@ systemdBase = """[Unit]
 Description=Minecraft Server PHP Service
 After=network.target
 
+user={0}
+
 [Service]
-WorkingDirectory={0}
+WorkingDirectory={1}
 
 Restart=always
 
 ExecStart=bash start.sh
 
 [Install]
-WantedBy=multi-user.target""".format(os.path.abspath("./"))
+WantedBy=multi-user.target""".format(getpass.getuser(), os.path.abspath("./"))
 
 def commandAdmin(command : str):
     if shutil.which("sudo"):
@@ -36,7 +38,7 @@ def main():
         fp.write(systemdBase)
     
     commandAdmin("apt install python3-full php screen -y")
-    commandAdmin("pip3 install requests")
+    os.system("pip3 install requests")
     commandAdmin("cp ./msp.service /etc/systemd/system/msp.service")
     commandAdmin("systemctl daemon-reload")
     
