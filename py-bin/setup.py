@@ -24,6 +24,13 @@ def commandAdmin(command : str):
         command = "sudo " + command
     os.system(command)
 
+def download(url : str, filename : str):
+    try:
+        os.system("wget "+url+" -O "+filename)
+        return True
+    except:
+        return False
+
 def main():
     for i in mkdir:
         os.makedirs(i, exist_ok=True)
@@ -37,7 +44,11 @@ def main():
     with open("./msp.service", mode="w") as fp:
         fp.write(systemdBase)
     
+    commandAdmin("apt update")
+    commandAdmin("apt upgrade -y")
     commandAdmin("apt install python3-full python3-pip php screen -y")
+    download("https://corretto.aws/downloads/latest/amazon-corretto-22-x64-linux-jdk.deb", "corretto-jdk.deb")
+    commandAdmin("dpkg -i corretto-jre.deb")
     os.system("pip3 install requests")
     commandAdmin("cp ./msp.service /etc/systemd/system/msp.service")
     commandAdmin("systemctl daemon-reload")
@@ -46,6 +57,7 @@ def main():
 MSP Daemon : systemctl start/stop/enable msp.service""")
     
     os.remove("msp.service")
+    os.remove("corretto-jdk.deb")
 
 if __name__ == "__main__":
     main()
