@@ -48,7 +48,7 @@ def createServer(serverUuid : str, motd : str, version : str):
         fp.write("eula=true")
     with open("../minecraft/"+serverUuid+"/server.properties", mode="w") as fp:
         fp.write(requests.get("https://server.properties/").text
-                 .replace("motd=motd=A Minecraft Server", "motd="+motd))
+                 .replace("motd=A Minecraft Server", "motd="+motd))
     logger.info("- Create server success -")
     return 0
         
@@ -71,7 +71,13 @@ def startServer(serverUuid : str):
     logger.info(port)
     
     with open("../minecraft/"+serverUuid+"/server.properties", mode="r+") as fp:
-        fp.write(fp.read().replace("server-port=25565", "server-port="+port))
+        text = ""
+        for i in fp.read().split("\n"):
+            if "server-port=" in i:
+                text += "server-port="+port+"\n"
+            else:
+                text += i+"\n"
+        fp.write(text)
     
     subprocess.call("java -Xms"+ini["server"]["serverMemXmsGiga"]+"G -Xmx"+ini["server"]["serverMemXmxGiga"]+"G -jar server.jar -nogui", cwd="../minecraft/"+serverUuid, shell=True)
     

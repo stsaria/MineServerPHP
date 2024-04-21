@@ -9,4 +9,6 @@
     $serverCreationLimitsNum = intval($ini["server"]["serverCreationLimitsNum"]);
     $serverMemXmsGiga = $ini["server"]["serverMemXmsGiga"];
     $serverMemXmxGiga = $ini["server"]["serverMemXmxGiga"]; 
+    $serverPort = $ini["server"]["serverPort"]; 
+    $serverIp = $ini["server"]["serverIp"]; 
     $createNum = Loader()[1];

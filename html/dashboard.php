@@ -28,6 +28,7 @@
             <?php if(runningServer($_GET["serverId"])): ?>
                 <a href="switchServer.php?serverId=<?=$_GET["serverId"]?>"><button>Server Off</button></a>
                 <p class="text-success">Server is running</p>
+                <p>ServerIP : <?=$serverIp?>:<?=explode(",", $serverPort)[$createNum-1]?></p>
                 <h3>Console</h3>
                 <iframe src="console.php?serverId=<?=$_GET["serverId"]?>" width="100%" height="500px"></iframe>
                 <form action="command.php" method="get">
