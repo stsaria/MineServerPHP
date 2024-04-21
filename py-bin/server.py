@@ -54,22 +54,22 @@ def createServer(serverUuid : str, motd : str, version : str):
         
 def startServer(serverUuid : str):
     logger.info("- Start Server -")
-    with open("../data/createNum.txt", "r") as fp:
-        createNum = fp.read()
-        if int(createNum) > int(ini["server"]["serverCreationLimitsNum"]):
-            logger.error("The maximum creation limit has been exceeded.")
-            return 1
-        
-    fp = open("../data/createNum.txt", "w")
+            
+    fp = open("../data/createNum.txt", "r+")
     fcntl.flock(fp.fileno(), fcntl.LOCK_EX)
-    fp.write(str(int(createNum)+1))
+    createNum = int(fp.read())
+    if createNum > int(ini["server"]["serverCreationLimitsNum"]):
+        logger.error("The maximum creation limit has been exceeded.")
+        return 1
+    else:
+        fp.write(str(createNum+1))
     fcntl.flock(fp.fileno(), fcntl.LOCK_UN)
     fp.close()
     
-    port = ini["server"]["serverPort"].split(",")[int(createNum)]
+    port = ini["server"]["serverPort"].split(",")[createNum]
     
-    logger.info(port)
-    
+    if not os.path.isfile("../minecraft/"+serverUuid+"/server.properties"):
+        download("https://server.properties", "../minecraft/"+serverUuid+"/server.properties")
     with open("../minecraft/"+serverUuid+"/server.properties", mode="r+") as fp:
         text = ""
         for i in fp.read().split("\n"):
@@ -81,14 +81,13 @@ def startServer(serverUuid : str):
     
     subprocess.call("java -Xms"+ini["server"]["serverMemXmsGiga"]+"G -Xmx"+ini["server"]["serverMemXmxGiga"]+"G -jar server.jar -nogui", cwd="../minecraft/"+serverUuid, shell=True)
     
-    with open("../data/createNum.txt", "r") as fp:
-        createNum = fp.read()
-    
-    fp = open("../data/createNum.txt", "w")
+    fp = open("../data/createNum.txt", "r+")
     fcntl.flock(fp.fileno(), fcntl.LOCK_EX)
-    fp.write(str(int(createNum)-1))
+    createNum = int(fp.read())
+    fp.write(str(createNum-1))
     fcntl.flock(fp.fileno(), fcntl.LOCK_UN)
     fp.close()
+    
     logger.info("- Stop Server -")
     return 0
 
@@ -101,5 +100,5 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-start":
             startServer(SERVERUUID)
             
-    except Exception as e:
+    except:
         logger.error(traceback.format_exc())
