@@ -24,9 +24,9 @@ def commandAdmin(command : str):
         command = "sudo " + command
     os.system(command)
 
-def download(url : str, filename : str):
+def download(url : str):
     try:
-        os.system("wget "+url+" -O "+filename)
+        os.system("wget "+url)
         return True
     except:
         return False
